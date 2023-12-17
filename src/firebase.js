@@ -40,4 +40,4 @@ const auth = firebase.auth(); //this is web namespaced api way
 
 const analytics = getAnalytics(app);
 
-export {db, auth};
+export {db, auth, analytics};

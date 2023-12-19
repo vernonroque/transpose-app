@@ -1,17 +1,17 @@
 import React from 'react'
 import styles from './LandingPage.module.css';
-import { useSelector, useDispatch } from 'react-redux';
+//import { useSelector, useDispatch } from 'react-redux';
 
-import{loadPDF,submitPDF,selectLandingPage} from './LandingPageSlice';
+//import{loadPDF,submitPDF,selectLandingPage} from './LandingPageSlice';
 
 
 function LandingPage() {
 
-  const landingPageState = useSelector(selectLandingPage);
-  const dispatch = useDispatch();
+  //const landingPageState = useSelector(selectLandingPage);
+  //const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    dispatch(event.target.value);
+    //dispatch(event.target.value);
   }
 
   const handleSubmit = (event) => {

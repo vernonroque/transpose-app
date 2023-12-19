@@ -13,6 +13,7 @@ app.use(express.json());
 // API routes
 app.get("/", (request, response) => response.status(200).send("hey baus!"));
 
+
 // Listen command
 exports.api = functions.https.onRequest(app);
 

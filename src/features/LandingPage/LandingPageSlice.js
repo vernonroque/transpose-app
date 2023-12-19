@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {fetchPDF} from './LandingPageAPI';
+//import {fetchPDF} from './LandingPageAPI';
 
 const initialState= {
     value:'',
@@ -13,8 +13,8 @@ const initialState= {
 export const submitPDF = createAsyncThunk(
     'LandingPage/sendPDF',
     async (value) => {
-        const response = await fetchPDF(value);
-        const jsonResponse = await response.json();
+        //const response = await fetchPDF(value);
+        //const jsonResponse = await response.json();
       // The value we return becomes the `fulfilled` action payload
     }
   );

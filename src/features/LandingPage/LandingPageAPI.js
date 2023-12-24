@@ -6,7 +6,6 @@ export const fetchPDF = (value) => {
 
     formData.append('pdfFile',value );
 
-
     return fetch(`${baseURL}/submitPDF`,{
         method:'POST',
         headers:{
@@ -14,8 +13,13 @@ export const fetchPDF = (value) => {
         },
         body:formData
     })
-    .then(()=>{
-
+    .then((response)=>{
+        try{
+            return response;
+        }
+        catch{
+            console.log("There is an error>>>",response.error);
+        }
     })
 
 }

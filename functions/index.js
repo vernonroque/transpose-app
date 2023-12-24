@@ -10,9 +10,16 @@ const app = express();
 app.use(cors({origin: true}));
 app.use(express.json());
 
+//  temporary storage variable
+let pdfVariable = {};
 // API routes
 app.get("/", (request, response) => response.status(200).send("hey baus!"));
 
+app.post("/submitPDF", (request, response)=>{
+  console.log("Made a post request");
+  pdfVariable = request.body;
+  response.status(201).send(pdfVariable);
+});
 
 // Listen command
 exports.api = functions.https.onRequest(app);

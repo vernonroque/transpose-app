@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-//import {fetchPDF} from './LandingPageAPI';
+import {fetchPDF} from './LandingPageAPI';
 
 const initialState= {
     value:'',
@@ -13,9 +13,10 @@ const initialState= {
 export const submitPDF = createAsyncThunk(
     'LandingPage/sendPDF',
     async (value) => {
-        //const response = await fetchPDF(value);
-        //const jsonResponse = await response.json();
+        const response = await fetchPDF(value);
+        const jsonResponse = await response.json();
       // The value we return becomes the `fulfilled` action payload
+      console.log('the json response>>>',jsonResponse);
     }
   );
 
@@ -26,7 +27,6 @@ export const LandingPage = createSlice({
         loadPDF: (state,action) =>{
             state.value = action.payload;
         }
-
     },
     extraReducers:(builder) => {
         builder
@@ -34,7 +34,7 @@ export const LandingPage = createSlice({
             state.status = 'loading';
           })
         .addCase(submitPDF.fulfilled, (state, action) => {
-            state.status = 'idle';
+            state.status = 'success';
             state.value = action.payload;
           })
         .addCase(submitPDF.rejected,(state)=>{
@@ -44,7 +44,7 @@ export const LandingPage = createSlice({
 });
 export const {loadPDF } = LandingPage.actions;
 
-export const selectLandingPage = (state) => state.LandingPage.value;
+export const selectLandingPage = (state) => state.LandingPage;
 
 export default LandingPage.reducer;
 

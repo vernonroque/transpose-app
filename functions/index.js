@@ -1,6 +1,8 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
+// const fs = require("fs");
+const pdfParse = require("pdf-parse");
 
 // API
 // App config
@@ -16,6 +18,12 @@ app.get("/", (request, response) => response.status(200).send("hey baus!"));
 
 app.post("/submitPDF", (request, response)=>{
   console.log("Made a post request");
+  console.log("The pdf>>>", request.body);
+  // const pdfFile = fs.readFileSync(request.body);
+  pdfParse(request.body)
+      .then((data)=>{
+        console.log(data.text);
+      });
   response.status(201).send({message: "File upload successful"});
 });
 

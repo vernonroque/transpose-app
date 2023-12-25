@@ -19,6 +19,7 @@ export const submitPDF = createAsyncThunk(
         const jsonResponse = await response.json();
       // The value we return becomes the `fulfilled` action payload
       console.log('the json response>>>',jsonResponse);
+      return jsonResponse;
     }
   );
 
@@ -37,8 +38,8 @@ export const LandingPage = createSlice({
           })
         .addCase(submitPDF.fulfilled, (state, action) => {
             state.status = 'success';
-            console.log(action.payload);
-            state.value = action.payload;
+            console.log(action.payload.message);
+            state.value = action.payload.message;
           })
         .addCase(submitPDF.rejected,(state)=>{
             state.status = 'error';

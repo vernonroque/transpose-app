@@ -11,14 +11,12 @@ app.use(cors({origin: true}));
 app.use(express.json());
 
 //  temporary storage variable
-let pdfVariable = {};
 // API routes
 app.get("/", (request, response) => response.status(200).send("hey baus!"));
 
 app.post("/submitPDF", (request, response)=>{
   console.log("Made a post request");
-  pdfVariable = request.body;
-  response.status(201).send(pdfVariable);
+  response.status(201).send({message: "File upload successful"});
 });
 
 // Listen command

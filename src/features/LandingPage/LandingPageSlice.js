@@ -13,7 +13,9 @@ const initialState= {
 export const submitPDF = createAsyncThunk(
     'LandingPage/sendPDF',
     async (value) => {
+      console.log('I am in the thunk');
         const response = await fetchPDF(value);
+        console.log(response);
         const jsonResponse = await response.json();
       // The value we return becomes the `fulfilled` action payload
       console.log('the json response>>>',jsonResponse);
@@ -35,6 +37,7 @@ export const LandingPage = createSlice({
           })
         .addCase(submitPDF.fulfilled, (state, action) => {
             state.status = 'success';
+            console.log(action.payload);
             state.value = action.payload;
           })
         .addCase(submitPDF.rejected,(state)=>{

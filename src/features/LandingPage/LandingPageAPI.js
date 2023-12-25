@@ -9,17 +9,23 @@ export const fetchPDF = (value) => {
     return fetch(`${baseURL}/submitPDF`,{
         method:'POST',
         headers:{
-            'Content-Type': 'application/json'
+            'Content-Type': 'multipart/form-data', ///had to change content-type to accept pdfs. this fixed the cors error
         },
         body:formData
     })
     .then((response)=>{
-        try{
+        if(response.ok){
+            console.log("The response is ok");
             return response;
         }
-        catch{
-            console.log("There is an error>>>",response.error);
+        else{
+            // If not successful, handle the error
+            console.log("the response is not ok",response);
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
+            
     })
-
+    .catch((error)=>{
+        console.log("There is an error>>>",error.meesage);
+    })
 }

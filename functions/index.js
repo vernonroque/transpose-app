@@ -1,29 +1,29 @@
 const functions = require("firebase-functions");
 const express = require("express");
+const fileUpload = require("express-fileupload");
 const cors = require("cors");
 // const fs = require("fs");
-const pdfParse = require("pdf-parse");
+// const pdfParse = require("pdf-parse");
 
 // API
 // App config
 const app = express();
 
+
 // Middlewares
 app.use(cors({origin: true}));
 app.use(express.json());
+app.use(fileUpload());
 
 //  temporary storage variable
 // API routes
 app.get("/", (request, response) => response.status(200).send("hey baus!"));
 
 app.post("/submitPDF", (request, response)=>{
-  console.log("Made a post request");
-  console.log("The pdf>>>", request.body);
-  // const pdfFile = fs.readFileSync(request.body);
-  pdfParse(request.body)
-      .then((data)=>{
-        console.log(data.text);
-      });
+  console.log("Made a post request>>>", request.body.pdfFile);
+  // pdfParse(request.files.pdfFile).then((result)=>{
+  //   console.log("The text>>>", result.text);
+  // });
   response.status(201).send({message: "File upload successful"});
 });
 

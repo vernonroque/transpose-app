@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React from 'react'
 import styles from './LandingPage.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -9,16 +9,15 @@ function LandingPage() {
 
   const landingPageState = useSelector(selectLandingPage);
   const dispatch = useDispatch();
-  const [pdf,setPDF] = useState('');
+  //const [pdf,setPDF] = useState('');
 
   const handleChange = (event) => {
-    setPDF(event.target.value);
-    dispatch(loadPDF(event.target.value));
+    dispatch(loadPDF(event.target.files[0]));
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(submitPDF(pdf));
+    dispatch(submitPDF(event.target.files[0]));
 
   }
   
@@ -29,14 +28,13 @@ function LandingPage() {
       <h1>Hey Baus</h1>
 
     <form className={styles.pdfFormSection} onSubmit={handleSubmit}>
-      <input type="file" accept=".pdf" onChange={handleChange} value = {pdf} />
+      <input type="file" accept=".pdf" onChange={handleChange}/>
       <button type="submit">Submit File</button>
 
     </form>
      
       {/* Render the transposed sheet music here */}
       {landingPageState.status}
-      {landingPageState.value}
 
     </section>
     </>

@@ -2,9 +2,12 @@ const baseURL = 'http://127.0.0.1:5001/transpose-app-52b89/us-central1/api';
 
 export const fetchPDF = (value) => {
 
+    console.log("The value>>>",value.size);
     const formData = new FormData();
+    //console.log("form Data>>>",formData);
 
-    formData.append('pdfFile',value );
+    formData.append('pdfFile',value);
+    console.log("form Data after>>>",formData);
 
     return fetch(`${baseURL}/submitPDF`,{
         method:'POST',

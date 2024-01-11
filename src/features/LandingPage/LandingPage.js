@@ -1,9 +1,9 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import styles from './LandingPage.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 //import axios from 'axios';
 import {storage} from '../../firebase';
-import {ref,uploadBytes,listAll,getDownloadURL} from 'firebase/storage';
+import {ref,uploadBytes,getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid'
 
 import{loadPDF, selectLandingPage} from './LandingPageSlice';
@@ -15,8 +15,9 @@ function LandingPage() {
   const dispatch = useDispatch();
   const [pdf,setPDF] = useState('');
   const [pdfList, setPDFList] = useState([]);
-  const pdfRefList = ref(storage);
-  const [pdfLoaded,setPDFLoaded] = useState(false);
+
+  //here is where i can determine the file path from google firebase storage
+  //const pdfRefList = ref(storage);
   
   const handleChange = (event) => {
     console.log("the file >>>",event.target.files[0]);
@@ -31,33 +32,21 @@ function LandingPage() {
     formData.append("pdfFile", pdf);
     // console.log(Object.fromEntries(formData.entries()))
     // console.log("pdfState>>>",pdf);
-    const pdfRef = ref(storage, `${pdf.name + v4()}`)
+
+    //here i can determine the file path
+    const pdfRef = ref(storage, `pdfs/${pdf.name + v4()}`)
     uploadBytes(pdfRef,pdf)
-    .then(()=>{
-      alert('pdf uploaded');
-      setPDFLoaded(true);
+    .then((snapshot)=>{
+      getDownloadURL(snapshot.ref)
+      .then(url=>{
+        alert('pdf submitted');
+        setPDFList(prev=> [...prev,url]);
+      })
+    
     });
   }
   
-  useEffect(()=>{
-    function listPDFs(){
-      return listAll(pdfRefList)
-      .then((response)=>{
-        response.items.forEach(item=>{
-          getDownloadURL(item)
-          .then(url=>{
-            setPDFList(prev=> [...prev, url]);
-          })
-        })
-      })
-    }
-    if(pdfLoaded){
-      listPDFs();
-      setPDFLoaded(false);
-      console.log('current pdf list', pdfList);
-    }
-
-  },[pdfLoaded,pdfList,pdfRefList])
+  console.log('current pdf list', pdfList);
   
   return (
     <>
@@ -68,11 +57,10 @@ function LandingPage() {
     <form className={styles.pdfFormSection} onSubmit={handleSubmit} encType="multipart/form-data">
       <input type="file" name="pdfFile" accept="application/pdf" onChange={handleChange}/>
       <button type="submit">Submit File</button>
-      {pdfList ? pdfList.map((element,i)=>{
-        return  <iframe key = {i}  src= {element} title = 'pdfs'/>
-      }):'' }
-
     </form>
+    {pdfList ? pdfList.map((url,i)=>{
+     return <iframe key = {i} src = {url} title='pdf' />
+    }) :'' }
      
       {/* Render the transposed sheet music here */}
       {landingPageState.status}

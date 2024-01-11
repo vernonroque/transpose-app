@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {fetchPDF} from './LandingPageAPI';
 
 const initialState= {
-    value:'',
+    value:{},
     status:'idle'
 }
 

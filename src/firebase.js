@@ -1,8 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+//import { initializeApp } from "firebase/app";
+//import { getAnalytics } from "firebase/analytics";
 //import { getAuth } from "firebase/auth"; //this is for web modular api way
 //import { getDatabase } from "firebase/database";  //this is for web modular api way
+import {getStorage} from "firebase/storage";
 
 import firebase from 'firebase/compat/app'; //this is for web namespaced api way
 import 'firebase/compat/auth'; //this is for web namespaced api way
@@ -23,14 +24,14 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_appId,
   measurementId: process.env.REACT_APP_measurementId
 };
-
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 // Initialize Realtime Database and get a reference to the service
 //const database = getDatabase(app); ///still not sure which one to use to setup database
 
-const db = app.firestore(); //this is web namespaced api way
+//const db = app.firestore(); this is triggering an error //this is web namespaced api way
 
 // Initialize Firebase Authentication and get a reference to the service
 //const auth = getAuth(app); //this is the web modular api way
@@ -38,6 +39,6 @@ const db = app.firestore(); //this is web namespaced api way
 // Initialize Firebase Authentication and get a reference to the service
 const auth = firebase.auth(); //this is web namespaced api way
 
-const analytics = getAnalytics(app);
+//const analytics = getAnalytics(app);
 
-export {db, auth, analytics};
+export {auth, storage};

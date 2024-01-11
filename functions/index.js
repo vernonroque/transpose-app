@@ -1,29 +1,38 @@
 const functions = require("firebase-functions");
 const express = require("express");
-const fileUpload = require("express-fileupload");
 const cors = require("cors");
-// const fs = require("fs");
 // const pdfParse = require("pdf-parse");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function(req, file, cb) {
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});
+
+const upload = multer({storage: storage});
 
 // API
 // App config
 const app = express();
+// Use express.urlencoded() middleware to parse URL-encoded bodies
+// app.use(express.urlencoded({extended: true}));
 
 
 // Middlewares
 app.use(cors({origin: true}));
-app.use(express.json());
-app.use(fileUpload());
+// app.use(express.json());
 
 //  temporary storage variable
 // API routes
 app.get("/", (request, response) => response.status(200).send("hey baus!"));
 
-app.post("/submitPDF", (request, response)=>{
-  console.log("Made a post request>>>", request.body.pdfFile);
-  // pdfParse(request.files.pdfFile).then((result)=>{
-  //   console.log("The text>>>", result.text);
-  // });
+app.post("/submitPDF", upload.single("pdfFile"), (request, response)=>{
+  console.log("Made a post request>>>", request.file);
+
   response.status(201).send({message: "File upload successful"});
 });
 
